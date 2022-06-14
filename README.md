@@ -1,1 +1,1 @@
-# PSI
+Aplicacion desarrollada por Daniel Cerrato, estudiante de la EPS en la UAM.

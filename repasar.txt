@@ -1,0 +1,3 @@
+Test para BookDetailView
+Comprobar ruta imagenes
+Pasar Flake8
