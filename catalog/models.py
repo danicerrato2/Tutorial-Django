@@ -18,8 +18,7 @@ class Book(models.Model):
         '-international.org/content/what-isbn">ISBN number</a>')
     title = models.CharField(max_length=200)
     price = models.DecimalField(decimal_places=2, max_digits=10)
-    path_to_cover_image = models.ImageField(
-        upload_to="cover_img")
+    path_to_cover_image = models.ImageField()
     number_copies_stock = models.IntegerField()
     date = models.DateField(null=True)
     score = models.DecimalField(decimal_places=2, max_digits=5)
@@ -31,7 +30,6 @@ class Book(models.Model):
         if not self.slug:
             self.slug = slugify(self.title + str(self.date))
         super(Book, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return self.title

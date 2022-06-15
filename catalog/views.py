@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from django.views import generic
 from django.db.models import Q
 
-from .models import Book
+from orders.forms import CartAddBookForm
+
+from .models import Book, Comment
 
 def home(request):
 
@@ -19,15 +20,22 @@ def home(request):
 
 class BookDetailView(generic.DetailView):
     model = Book
+    template_name = 'catalog/book_detail.html'
 
-    def book_detail_view(request, primary_key):
-        book = get_object_or_404(Book, pk=primary_key)
-        return render(request, 'catalog/book_detail.html',
-                      context={'book': book})
+    def get_context_data(self, *args, **kwargs):
+        context = super(BookDetailView, self).get_context_data(**kwargs)
+
+        context['pk'] = self.kwargs.get('slug')
+        book = Book.objects.get(slug=context['pk'])
+        comments = Comment.objects.all().filter(book=book)
+        context['comments'] = comments
+        context['form'] = CartAddBookForm()
+
+        return context
 
 class SearchView(generic.ListView):
     model = Book
-    template_name = 'search.html'
+    template_name = 'catalog/search.html'
     paginate_by = 5
 
     def get_queryset(self):

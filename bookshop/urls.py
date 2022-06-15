@@ -24,9 +24,9 @@ import debug_toolbar
 urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     path('admin/', admin.site.urls),
-    path('catalog/', include('catalog.urls')),
+    path('home/', include('catalog.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('authentication.urls')),
     path('orders/', include('orders.urls')),
-    path('', RedirectView.as_view(url='catalog/')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('', RedirectView.as_view(url='home/', permanent=True)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

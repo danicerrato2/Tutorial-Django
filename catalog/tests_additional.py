@@ -84,7 +84,7 @@ class CatalogAdditionalTests(ServiceBaseTest):
 
         title = book.title
         date = book.date
-        url = '/catalog/book/' + title.replace(" ", "-") + str(date)
+        url = '/home/book/' + title.replace(" ", "-") + str(date)
 
         self.assertEqual(book.get_absolute_url(), url)
 

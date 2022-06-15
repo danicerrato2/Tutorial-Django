@@ -1,0 +1,19 @@
+{% extends "base.html"%}
+{% block content %}
+    <h2>Confirm Buy</h2>
+    <div>
+        <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <div>
+                {{ field }}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            </div>
+        {% endfor %}
+        <div>
+            <input type="submit" value="Confirm">
+            </form>
+            <a href="{% url 'home' %}">Continue shopping</a>
+        </div>
+    </div>
+{% endblock %}

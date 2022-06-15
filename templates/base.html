@@ -19,8 +19,20 @@
                <ul class="sidebar-nav">
                   <li><a href="{% url 'home' %}"> Homepage</a></li>
                   <hr>
-                  <li><a href="#"> Cart</a></li>
-                  <hr>
+                  {% if user.is_authenticated %}
+                  {% if cart|length > 0 %}
+                  <li>
+                     {% url 'cart_list' as cart_url %}
+                     <a class="{% if request.get_full_path == cart_url %} active {% endif %}" href="{% url 'cart_list' %}">Items: {{cart|length}} - Price: {{cart.get_total_price}} $</a>
+                  </li>
+                  {% else %}
+                  <li>
+                     {% url 'cart_list' as cart_url %}
+                     <a class="{% if request.get_full_path == cart_url %} active {% endif %}" href="{% url 'cart_list' %}">Empty cart</a>
+                  </li>
+                  {% endif %}
+                     <hr>
+                  {% endif %}
                   {% if user.is_authenticated %}
                   <li>
                      <span style="font-weight:bold">User:</span> {{ user.get_username }}

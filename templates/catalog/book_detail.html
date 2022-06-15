@@ -1,24 +1,55 @@
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
-  <h1>Title: {{book.title}}</h1>
-  <p><strong>Author(s): </strong>
-    {% for author in book.author.all %}
-      <p>{{author}}</p>
-    {% endfor %}
-  </p>
-  <p><strong>Cover: </strong><img src="{{book.path_to_cover_image}}"></p>
-  <p><strong>ISBN: </strong>{{book.isbn}}</p>
-  <p><strong>Date: </strong>{{book.date}}</p>
-  <p><strong>Score: </strong>{{book.score}}</p>
-  <p><strong>Copies Available: </strong>{{book.number_copies_stock}}</p>
-  <p><strong>Price: </strong>{{book.price}}</p>
-  <div style="margin-left:20px; margin-top:20px">
-    <h4>Comments</h4>
-    {% for comment in book.comment_set.all %}
-      <hr>
-      <p><b>{{comment.user}} ({{comment.date}})</b></p>
-      <p>{{comment.msg}}</p>
-    {% endfor %}
-  </div>
-{% endblock %}
+
+        <div>
+            <h1>Title: {{ book.title }}</h1>
+            <div>
+              <imgsrc="{%static 'covers/'%}{{ book.path_to_cover_image }}" alt="Imagen no encontrada">
+            </div>
+            {% if user.is_authenticated %}
+              <div>
+                  <form action="{% url 'cart_add' slug=pk %}" method="POST">
+                      {% csrf_token %}
+                      <div>
+                          <div>
+                              <label for="quanity">Number of items to add to the cart</label>
+                              {{ form.quantity }}
+                          </div>
+                          <input type="submit" value="Add to cart"/>
+                      </div>
+                  </form>
+              </div>
+            {% endif %}
+            <div>
+              <h5>Authors: </h5>
+              {% for author in book.author.all %}
+                <p>{{author}}</p>
+              {% endfor %}
+            </div>          
+            <div>
+                <p><strong>Score:</strong> {{ book.score }}</p>
+                <p><strong>Price:</strong> {{ book.price }} $</p>
+            </div>
+        </div>
+
+
+    <h2>Comentarios:</h2>
+    {% if comments %}
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <p>{{ comment.msg }}</p>
+                <div>
+                    <h6>- from {{ comment.user }}</h6>
+                    <h6>{{ comment.date }}</h6>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+            <p>The book has no comments</p>
+    {% endif %}
+
+
+{% endblock content %}

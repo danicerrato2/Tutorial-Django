@@ -65,7 +65,7 @@ ROOT_URLCONF = 'bookshop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'orders.context_preprocessors.cart',
             ],
         },
     },
@@ -137,7 +138,7 @@ STATIC_PATH = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIR = (STATIC_PATH,)
+STATICFILES_DIR = (os.path.join(BASE_DIR, 'static'),)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -156,3 +157,7 @@ LOGOUT_REDIRECT_URL = '/'
 INTERNAL_IPS = ['127.0.0.1']
 
 CART_SESSION_ID = 'cart'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+MEDIA_URL = 'images/'
