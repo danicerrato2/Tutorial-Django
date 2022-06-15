@@ -30,7 +30,7 @@ file.close()
 #DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', '')) != False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['','127.0.0.1']
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
     'authentication.apps.AuthenticationConfig',
+    'orders.apps.OrdersConfig',
     'debug_toolbar'
 ]
 
@@ -64,11 +65,7 @@ ROOT_URLCONF = 'bookshop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['./authentication/templates',
-            os.path.join(BASE_DIR, 'templates'),
-            os.path.join(BASE_DIR, 'authentication',
-                'templates/registration'),
-            os.path.join(BASE_DIR, 'catalog', 'templates')],
+        'DIRS': [ os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,7 +133,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_PATH = 'catalog/static/'
+STATIC_PATH = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -157,3 +154,5 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 INTERNAL_IPS = ['127.0.0.1']
+
+CART_SESSION_ID = 'cart'

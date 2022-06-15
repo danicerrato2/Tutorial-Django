@@ -1,3 +1,4 @@
 Test para BookDetailView
 Comprobar ruta imagenes
 Pasar Flake8
+Meter en heroku (mirar final practica 3 para db)

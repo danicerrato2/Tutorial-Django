@@ -11,7 +11,7 @@ CMD = python3 manage.py
 HEROKU = heroku run export SQLITE=1 &
 # Add applications to APP variable as they are
 # added to settings.py file
-APP = catalog  #orders
+APP = catalog orders
 
 server:
 	$(CMD) runserver $(DJANGOPORT)
@@ -68,6 +68,12 @@ test_authentication_services:
 test_orders_cart:
 	$(CMD) test orders.tests_cart --keepdb
 
+test_orders_models:
+	$(CMD) test orders.tests_models --keepdb
+
+test_orders_services:
+	$(CMD) test orders.tests_services --keepdb
+	
 # other commands that may be useful but require tuning
 #test_heroku:
 #	$(HEROKU) $(CMD) test datamodel.tests_models.GameModelTests --keepdb & wait
