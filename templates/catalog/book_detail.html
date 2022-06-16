@@ -5,7 +5,7 @@
         <div>
             <h1>Title: {{ book.title }}</h1>
             <div>
-              <imgsrc="{%static 'covers/'%}{{ book.path_to_cover_image }}" alt="Imagen no encontrada">
+              <img src="{%static 'covers/'%}{{ book.path_to_cover_image }}" alt="Imagen no encontrada">
             </div>
             {% if user.is_authenticated %}
               <div>
@@ -14,7 +14,7 @@
                       <div>
                           <div>
                               <label for="quanity">Number of items to add to the cart</label>
-                              {{ form.quantity }}
+                              {{ cart_form.quantity }}
                           </div>
                           <input type="submit" value="Add to cart"/>
                       </div>
@@ -29,7 +29,24 @@
             </div>          
             <div>
                 <p><strong>Score:</strong> {{ book.score }}</p>
+                <p><strong>Votes:</strong> {{ book.num_votes }}</p>
                 <p><strong>Price:</strong> {{ book.price }} $</p>
+            </div>
+            <div>
+            {% if user.is_authenticated %}
+              <div>
+                  <form action="{% url 'vote' slug=pk %}" method="POST">
+                      {% csrf_token %}
+                      <div>
+                          <div>
+                              <label for="score">Score the book</label>
+                              {{ vote_form.score }}
+                          </div>
+                          <input type="submit" value="Confirm score"/>
+                      </div>
+                  </form>
+              </div>
+            {% endif %}
             </div>
         </div>
 

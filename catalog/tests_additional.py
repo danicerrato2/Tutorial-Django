@@ -1,6 +1,5 @@
 from decimal import Decimal
-from urllib import response
-from django.test import Client, TestCase
+from django.test import TestCase
 from django.urls import reverse
 from .management.commands.populate import Command
 
@@ -101,37 +100,3 @@ class CatalogAdditionalTests(ServiceBaseTest):
 
         for book in last5:
             self.assertTrue(response_text.find(book.title) != -1)
-
-    
-    def test03_details(self):
-        "check detail page"
-        # get all books
-        books = Book.objects.all()
-        # get response with all book title
-        # check all books
-        for book in books:
-            response = self.client.get(
-                reverse(DETAIL_SERVICE, kwargs={'slug': book.slug}),
-                follow=True)
-            response_txt = self.decode(response.content)
-            self.assertFalse(response_txt.find(book.title) == -1)
-            self.assertFalse(response_txt.find(str(book.price)) == -1)
-            authors = book.author.all()
-            self.assertGreater(len(authors), 0,
-                               "number of author must be greater than 0")
-            # check authors for this book
-            for author in authors:
-                self.assertFalse(response_txt.find(author.first_name) == -1)
-                self.assertFalse(response_txt.find(author.last_name) == -1)
-        # check comments
-        comments = Comment.objects.all()
-        self.assertEqual(len(comments), self.populate.NUMBERCOMMENTS,
-                         "wrong number of comments")
-        for comment in comments:
-            book = comment.book
-            response = self.client.get(reverse(DETAIL_SERVICE,
-                                                kwargs={'slug': book.slug}),
-                                        follow=True)
-            # check comment is in corresponding detail page
-            response_txt = self.decode(response.content)
-            self.assertFalse(response_txt.find(comment.msg) == -1)

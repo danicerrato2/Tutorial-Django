@@ -17,13 +17,13 @@
             <td>{{item.price}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.total_price}}</td>
-            <td>
+<!--            <td>
                 <form action="{% url 'cart_remove' slug=item.book_slug %}" method="POST">
                     {% csrf_token %}
                     <input type="submit" value="Delete">
                 </form>
             </td>
-        </tr>
+-->        </tr>
         {% endfor %}
     </table>
     <hr>

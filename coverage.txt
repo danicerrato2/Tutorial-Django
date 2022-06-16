@@ -1,19 +1,16 @@
 Name                                                        Stmts   Miss  Cover   Missing
 -----------------------------------------------------------------------------------------
 catalog/__init__.py                                             0      0   100%
-catalog/admin.py                                               12      0   100%
+catalog/admin.py                                                9      0   100%
 catalog/apps.py                                                 4      0   100%
-catalog/management/commands/populate.py                        67      1    99%   45
+catalog/forms.py                                                3      0   100%
+catalog/management/commands/populate.py                        79      1    99%   46
 catalog/migrations/0001_initial.py                              7      0   100%
-catalog/migrations/0002_auto_20220613_2016.py                   4      0   100%
-catalog/migrations/0003_alter_book_path_to_cover_image.py       4      0   100%
-catalog/migrations/0004_alter_book_path_to_cover_image.py       4      0   100%
-catalog/migrations/0005_auto_20220614_0050.py                   4      0   100%
-catalog/migrations/0006_rename_comment_id_comment_id.py         4      0   100%
+catalog/migrations/0002_alter_book_path_to_cover_image.py       4      0   100%
+catalog/migrations/0003_auto_20220615_2244.py                   7      0   100%
 catalog/migrations/__init__.py                                  0      0   100%
-catalog/models.py                                              39      0   100%
-catalog/settings.py                                            24     24     0%   13-135
+catalog/models.py                                              61      0   100%
 catalog/urls.py                                                 3      0   100%
-catalog/views.py                                               28      2    93%   24-25
+catalog/views.py                                               51      8    84%   66-75
 -----------------------------------------------------------------------------------------
-TOTAL                                                         204     27    87%
+TOTAL                                                         228      9    96%

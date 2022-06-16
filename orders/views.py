@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 
 @login_required
 @require_POST
-def cart_add(request, book_slug):
+def cart_add(request, slug):
     """ add the book with slug " book_slug " to the
     shopping cart . The number of copies to be bought
     may be obtained from the form CartAddBookForm """
@@ -16,7 +16,7 @@ def cart_add(request, book_slug):
 
     form = CartAddBookForm(request.POST)
     if form.is_valid():
-        book = get_object_or_404(Book, slug=book_slug)
+        book = get_object_or_404(Book, slug=slug)
         quantity = form.cleaned_data['quantity']
     
     cart.add(book, quantity)
@@ -30,9 +30,9 @@ def cart_list(request):
         context={'cart': cart, 'form': form})
 
 @login_required
-def cart_remove(request, book_slug):
+def cart_remove(request, slug):
     cart = Cart(request)
-    book = get_object_or_404(Book, slug=book_slug)
+    book = get_object_or_404(Book, slug=slug)
     cart.remove(book)
     return redirect("cart_list")
 

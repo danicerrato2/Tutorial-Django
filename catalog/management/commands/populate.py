@@ -9,12 +9,13 @@
 #
 # use module Faker generator to generate data (https://zetcode.com/python/faker/)
 
+from math import floor
 import os
 
 from django.core.management.base import BaseCommand
 from django.template.defaultfilters import random, slugify
 import pytz
-from catalog.models import (Author, Book, Comment)
+from catalog.models import (Author, Book, Comment, Vote)
 from django.contrib.auth.models import User
 from faker import Faker
 # define STATIC_PATH in settings.py
@@ -52,6 +53,7 @@ class Command(BaseCommand):
         self.NUMBERUSERS = 20
         self.NUMBERBOOKS = 30
         self.NUMBERAUTHORS = 6
+        self.NUMBERVOTES = 100
         self.MAXAUTHORSPERBOOK = 3
         self.NUMBERCOMMENTS = self.NUMBERBOOKS * 5
         self.MAXCOPIESSTOCK = 30
@@ -62,6 +64,7 @@ class Command(BaseCommand):
         self.author()
         self.book()
         self.comment()
+        self.vote()
         # check a variable that is unlikely been set out of heroku
         # as DYNO to decide which font directory should be used.
         # Be aware that your available fonts may be different 
@@ -119,7 +122,7 @@ class Command(BaseCommand):
                        title=self.faker.sentence(),
                        price=self.faker.random_number(digits=2, fix_len=False),
                        number_copies_stock=self.faker.random_number(digits=2, fix_len=False),
-                       score=self.faker.pydecimal(left_digits=1, right_digits=2, positive=True),
+                       score=None,
                        date=self.faker.date())
             book.save()
             book.slug = slugify(book.title + str(book.date))
@@ -139,3 +142,15 @@ class Command(BaseCommand):
             comment.book = Book.objects.all()[random.randint(0, self.NUMBERAUTHORS - 1)]
             comment.user = User.objects.all()[random.randint(0, self.NUMBERAUTHORS - 1)]
             comment.save()
+
+    def vote(self):
+        "Insert votes"
+        books_voted = []
+        for i in range(self.NUMBERVOTES):
+            score=self.faker.random_int(0,10)
+            book = Book.objects.all()[random.randint(0, self.NUMBERBOOKS - 1)]
+            books_voted.append(book)
+            user = User.objects.all()[random.randint(0, self.NUMBERUSERS - 1)]
+            vote = Vote(score=score, book=book, user=user)
+            vote.save()
+            

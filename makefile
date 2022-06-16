@@ -62,6 +62,9 @@ test_catalog_additional:
 test_catalog_services:
 	$(CMD) test catalog.tests_services --keepdb
 
+test_catalog_junio:
+	$(CMD) test catalog.tests_junio --keepdb
+
 test_authentication_services:
 	$(CMD) test authentication.tests_services --keepdb
 

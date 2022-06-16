@@ -25,5 +25,12 @@
                 <li><a href="{{ book.get_absolute_url}}">{{ book.title }}</a></li>
             {% endfor %}
         </div>
+        <hr>
+        <div>
+            <h4>Most Voted Books</h4>
+            {% for book in most_voted_books %}
+                <li><a href="{{ book.get_absolute_url}}">{{ book.title }}</a></li>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

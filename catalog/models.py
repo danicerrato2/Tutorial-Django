@@ -1,7 +1,9 @@
+from math import floor
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Author(models.Model):
     first_name = models.CharField(max_length=200)
@@ -21,7 +23,10 @@ class Book(models.Model):
     path_to_cover_image = models.ImageField()
     number_copies_stock = models.IntegerField()
     date = models.DateField(null=True)
-    score = models.DecimalField(decimal_places=2, max_digits=5)
+    score = models.IntegerField(null=True, validators=[
+        MinValueValidator(0), MaxValueValidator(10)
+    ])
+    num_votes = models.IntegerField(default=0)
     slug = models.SlugField(max_length=255, unique=True)
     author = models.ManyToManyField(Author, 
         help_text='Select an author for this book')
@@ -49,3 +54,31 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.book}, by {self.user} on {self.date}'
+
+
+class Vote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    score = models.IntegerField(validators=[
+        MinValueValidator(0), MaxValueValidator(10)
+    ])
+
+    def save(self, *args, **kwargs):
+        votes = Vote.objects.all().filter(book=self.book)
+        num_votes = 0
+        score = 0
+        user_had_voted = False
+        for vote in votes:
+            if vote.user == self.user:
+                user_had_voted = True
+                vote.score = self.score
+            num_votes += 1
+            score += vote.score
+        if user_had_voted == False:
+            num_votes += 1
+            score += self.score
+        self.book.score = floor(score / num_votes)
+        self.book.num_votes = num_votes
+        self.book.save()
+        super(Vote, self).save(*args, **kwargs)
+        
